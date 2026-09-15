@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Meu Painel</h2>
+<a href="{{ url_for('criar_tarefa') }}">Criar nova tarefa</a>
+
+<h3>Tarefas do grupo</h3>
+<form method="get">
+  <select name="status" onchange="this.form.submit()">
+    <option value="" {% if not request.args.get('status') %}selected{% endif %}>Todos</option>
+    <option value="pendente" {% if request.args.get('status') == 'pendente' %}selected{% endif %}>Pendente</option>
+    <option value="em andamento" {% if request.args.get('status') == 'em andamento' %}selected{% endif %}>Em andamento</option>
+    <option value="concluída" {% if request.args.get('status') == 'concluída' %}selected{% endif %}>Concluída</option>
+  </select>
+</form>
+
+<ul>
+  {% for t in todas_tarefas %}
+    <li>
+      <strong>{{ t.titulo }}</strong> - {{ t.status }} - criado por {{ t.criador.nome if t.criador else '-' }}
+      {% if t.atribuido %} - atribuído a {{ t.atribuido.nome }}{% endif %}
+      <a href="{{ url_for('editar_tarefa', tarefa_id=t.id) }}">Editar</a>
+      <form action="{{ url_for('excluir_tarefa', tarefa_id=t.id) }}" method="post" style="display:inline">
+        <button type="submit">Excluir</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

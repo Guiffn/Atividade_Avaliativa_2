@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Nova tarefa{% endblock %}
+{% block content %}
+<h1>Nova tarefa</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  {{ form.titulo.label }} {{ form.titulo() }}
+  {{ form.descricao.label }} {{ form.descricao() }}
+  {{ form.status.label }} {{ form.status() }}
+  {{ form.atribuido.label }} {{ form.atribuido() }}
+  {{ form.submit() }}
+</form>
+{% endblock %}
